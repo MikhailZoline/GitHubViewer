@@ -80,16 +80,17 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! CollectionViewCell
         configureCell(cell: cell, at: indexPath)
+        
         return cell
 
     }
     
     func configureCell(cell: CollectionViewCell, at indexPath: IndexPath ) {
         if let gitSummary: GitHubView? = self.viewModel?.gitArray[indexPath.row]{
-            cell.created.text = gitSummary?.created_at
-            cell.descr.text = gitSummary?.description
-            cell.license.text = gitSummary?.license?.name
-            cell.name.text = gitSummary?.name
+            cell.created.text = "created at: " + (gitSummary?.created_at != nil ? (gitSummary?.created_at)! : "nil" )
+            cell.descr.text = "description : " + (gitSummary?.description != nil ? (gitSummary?.description)! : "nil")
+            cell.license.text = "licence : " + (gitSummary?.license != nil ? (gitSummary?.license!.name!)! : "nil")
+            cell.name.text = "name : " + (gitSummary?.name != nil ? (gitSummary?.name)! : "nil")
             cell.layer.borderWidth = 1.0
             cell.layer.borderColor = UIColor.blue.cgColor
         }
@@ -124,14 +125,14 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: - ScrollViewDelegate
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let contentOffsetMaxY: Float = Float(scrollView.contentOffset.y + scrollView.bounds.size.height)
         let contentHeight: Float = Float(scrollView.contentSize.height)
         
         let ret = contentOffsetMaxY > contentHeight - 100
+        
         if ret {
             self.viewModel?.full == false ? self.viewModel?.gitListUpdated() : ()
-        }else{
-
         }
     }
 }

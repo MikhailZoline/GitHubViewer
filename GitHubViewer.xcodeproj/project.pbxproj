@@ -49,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				745197B621E6629700D29B5D /* GitHubViewer */,
+				745197DD21E7F5DD00D29B5D /* Resources */,
 				745197B521E6629700D29B5D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,19 +65,79 @@
 		745197B621E6629700D29B5D /* GitHubViewer */ = {
 			isa = PBXGroup;
 			children = (
+				745197DC21E7F5A600D29B5D /* Application Delegate */,
+				745197DA21E7F57400D29B5D /* Model */,
+				745197DB21E7F58700D29B5D /* View Controllers */,
+				745197D921E7F56000D29B5D /* ViewModel */,
+				745197DE21E7F64200D29B5D /* Network Manager */,
+			);
+			path = GitHubViewer;
+			sourceTree = "<group>";
+		};
+		745197D921E7F56000D29B5D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				745197D321E7007300D29B5D /* ViewModel.swift */,
+			);
+			name = ViewModel;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		745197DA21E7F57400D29B5D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				745197CF21E6687B00D29B5D /* GitViewModel.swift */,
+			);
+			name = Model;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		745197DB21E7F58700D29B5D /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				745197C921E667AE00D29B5D /* CollectionViewController.swift */,
+				745197DF21E7F65600D29B5D /* Custom Cells */,
+			);
+			name = "View Controllers";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		745197DC21E7F5A600D29B5D /* Application Delegate */ = {
+			isa = PBXGroup;
+			children = (
 				745197B721E6629700D29B5D /* AppDelegate.swift */,
+			);
+			name = "Application Delegate";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		745197DD21E7F5DD00D29B5D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				745197BB21E6629700D29B5D /* Main.storyboard */,
 				745197BE21E662A600D29B5D /* Assets.xcassets */,
 				745197C021E662A600D29B5D /* LaunchScreen.storyboard */,
 				745197C321E662A600D29B5D /* Info.plist */,
-				745197C921E667AE00D29B5D /* CollectionViewController.swift */,
-				745197D521E7CF1C00D29B5D /* CollectionViewCell.swift */,
 				745197D621E7CF1C00D29B5D /* CollectionViewCell.xib */,
-				745197CB21E667EF00D29B5D /* NetworkManager.swift */,
-				745197CF21E6687B00D29B5D /* GitViewModel.swift */,
-				745197D321E7007300D29B5D /* ViewModel.swift */,
 			);
-			path = GitHubViewer;
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		745197DE21E7F64200D29B5D /* Network Manager */ = {
+			isa = PBXGroup;
+			children = (
+				745197CB21E667EF00D29B5D /* NetworkManager.swift */,
+			);
+			name = "Network Manager";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		745197DF21E7F65600D29B5D /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				745197D521E7CF1C00D29B5D /* CollectionViewCell.swift */,
+			);
+			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
