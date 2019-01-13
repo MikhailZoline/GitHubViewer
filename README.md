@@ -14,6 +14,6 @@ API endpoint - https://api.github.com/users/apple/repos?page=1&per_page=10  wher
 Scrolling is used to detect if the request for next page is needed.
 
 - The MVMV is used as code structure.
-- The networking is done with URLSSession.
+- The networking is done with URLSession.
 - The JSONSerialization is done with Codable protocol.
 - The ScrollViewCell uses StackView to spread the text fields.

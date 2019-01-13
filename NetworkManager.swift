@@ -43,7 +43,6 @@ class NetworkManager {
     private var task: URLSessionTask?
     
     private init(){
-        
     }
     static let sharedInstance = NetworkManager()
     
@@ -56,7 +55,9 @@ class NetworkManager {
         let stringURL: String = NetworkManager.GitHubURL + user + "/repos?page=" + String(page) + "&per_page=10"
         
         guard let url = URL(string: stringURL) else{
-            fatalError("Failed to create URL with \(stringURL)" )
+            print("Failed to create URL with \(stringURL)" )
+            completion(nil, nil, nil)
+            return
         }
         var request = URLRequest(url:url)
         request.httpMethod = "GET"
@@ -77,22 +78,30 @@ class NetworkManager {
                 if let response = response as? HTTPURLResponse {
                     let result = handleNetworkResponse(response)
                     switch result {
+                        
                     case .success:
                         guard let responseData = data else {
                             completion(nil, NetworkResponse.noData.rawValue)
                             return
                         }
-                        do {
-//                            print(responseData)
-                            let responseJSON: [GitHubView] = try JSONDecoder().decode([GitHubView].self, from : responseData)
-                            // print(responseJSON.debugDescription)
-                            OperationQueue.main.addOperation({
-                                completion( responseJSON,nil)
-                            })
-                        }catch {
-                            print("Failed to Initialize JSON object \(error)")
-                            completion(nil, NetworkResponse.unableToDecode.rawValue)
+    
+                        if (responseData as NSData).length > 2 {
+                            
+                            do {
+                                let responseJSON : [GitHubView] = try
+                                    JSONDecoder().decode([GitHubView].self, from: responseData)
+                                OperationQueue.main.addOperation({completion(responseJSON, nil)})
+                            }
+                            catch {
+                                print("Failed to Initialize JSON object \(error)")
+                                completion(nil, NetworkResponse.unableToDecode.rawValue)
+                            }
                         }
+                            
+                        else {
+                            completion([GitHubView](),nil)
+                        }
+                        
                     case .failure(let networkFailureError):
                         completion(nil, networkFailureError)
                     }

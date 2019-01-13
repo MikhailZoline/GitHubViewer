@@ -20,35 +20,46 @@ class ViewModel{
     weak var delegate: ViewModelProtocol?
     var page: Int = 1
     var user: String? = "apple"
-    var full: Bool = false
+    @objc dynamic var full: Bool = false
     static let viewModel = ViewModel()
-    private init(){}
+    private init(){ operationQueue.qualityOfService = .default }
+    private var operation: Operation?
+}
 
+extension ViewModel {
+    
+    
     func gitListUpdated() {
         
-        operationQueue.qualityOfService = .default
         let getGitListOperation: BlockOperation = BlockOperation(block: {[weak self] in
+            
             self!.networkManager.getPage(user: self!.user!, page: self!.page, completion:  { (gitArray, error) in
-                if ((error) != nil){
-                    fatalError("Failed to Initialize JSON object \(error!.description)")
+                
+                if ((error) != nil ){
+                    print("Failed to Initialize JSON object \(error!.description)")
+                    return
                 }
-                OperationQueue.main.addOperation { [weak self] in
-                    self?.full = gitArray?.count == 0 ? true : false
-                    self?.page += 1
-                    self?.gitArray += gitArray as! [GitHubView]
-                    self?.delegate?.reloadData()
+                    
+                else if self?.full != true && gitArray != nil && gitArray?.count != 0 {
+                    OperationQueue.main.addOperation { [weak self] in
+                        self?.page += 1
+                        self?.gitArray += gitArray!
+                        self?.delegate?.reloadData()
+                    }
                 }
+                    
+                else if gitArray?.count == 0 {
+                    self?.full = true
+                    self?.operationQueue.cancelAllOperations()
+                }
+                
             })
         })
-        getGitListOperation.completionBlock = {[weak self] in
-    
-        }
-        if( self.full == false){
-//            print("gitListUpdated(\(self.page))")
+
+        if(self.full != true ){
             operationQueue.addOperation(getGitListOperation)
         }
-        else{
-//            print("gitListFull(\(self.page))")
-        }
+
     }
+    
 }

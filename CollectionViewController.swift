@@ -17,7 +17,8 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     weak var viewModel = ViewModel.viewModel
     @IBOutlet var segmentCtrl: UISegmentedControl!
     var list: Bool =  false
-    
+    var previousScrollMoment: Date = Date()
+    var previousScrollY: CGFloat = 0
 //    MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +28,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         // ViewModel Init here
         viewModel!.delegate = self
         viewModel!.gitListUpdated()
-        
-        // CollectionView Self Sizing Cell Init here
+
 //        let collectionFlowLayout = self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
 //        collectionFlowLayout.estimatedItemSize = CGSize(width: 1, height:1)
 //        collectionFlowLayout.itemSize = UICollectionViewFlowLayout.automaticSize
@@ -38,7 +38,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     @objc func toggleGrid(){
         self.list = self.list == false ? true : false
-        self.collectionView.reloadData()
+        self.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,10 +48,21 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
 //    MARK: - textField Delegate
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.viewModel?.gitArray.removeAll()
-        self.viewModel?.user = textField.text?.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: " "))
-        self.viewModel?.page = 1
-        self.viewModel?.gitListUpdated()
+  
+        OperationQueue.main.addOperation {[weak self] in
+            let indexPath = NSIndexPath(item: 0, section: 0)
+            if  (self?.collectionView.numberOfSections)! > indexPath.section && (self?.collectionView.numberOfItems(inSection: indexPath.section))! > indexPath.row {
+            self?.collectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.top, animated: true)
+            }
+
+        }
+        if ( textField.text?.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: " ")) != self.viewModel?.user) {
+            self.viewModel?.gitArray.removeAll()
+            self.viewModel?.user = textField.text?.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: " "))
+            self.viewModel?.page = 1
+            self.viewModel?.full = false
+            self.viewModel?.gitListUpdated()
+        }
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool{
         return true
@@ -79,15 +90,16 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! CollectionViewCell
-        configureCell(cell: cell, at: indexPath)
+        if self.viewModel?.gitArray.count ?? 0 > 0 {
+            configureCell(cell: cell, at: indexPath)
+        }
         
         return cell
-
     }
     
     func configureCell(cell: CollectionViewCell, at indexPath: IndexPath ) {
         if let gitSummary: GitHubView? = self.viewModel?.gitArray[indexPath.row]{
-            cell.created.text = "created at: " + (gitSummary?.created_at != nil ? (gitSummary?.created_at)! : "nil" )
+            cell.created.text = "created at : " + (gitSummary?.created_at != nil ? (gitSummary?.created)! : "nil" )
             cell.descr.text = "description : " + (gitSummary?.description != nil ? (gitSummary?.description)! : "nil")
             cell.license.text = "licence : " + (gitSummary?.license != nil ? (gitSummary?.license!.name!)! : "nil")
             cell.name.text = "name : " + (gitSummary?.name != nil ? (gitSummary?.name)! : "nil")
@@ -128,11 +140,15 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         
         let contentOffsetMaxY: Float = Float(scrollView.contentOffset.y + scrollView.bounds.size.height)
         let contentHeight: Float = Float(scrollView.contentSize.height)
+        let ret = contentOffsetMaxY > contentHeight - 300
         
-        let ret = contentOffsetMaxY > contentHeight - 100
-        
-        if ret {
-            self.viewModel?.full == false ? self.viewModel?.gitListUpdated() : ()
+        let date =  Date()
+        let elapsedSinceLastListUpdate = date.timeIntervalSince(self.previousScrollMoment)
+    
+        if ret && self.viewModel?.full == false && CGFloat(elapsedSinceLastListUpdate) > 0.015
+        {
+            self.previousScrollMoment = date
+            self.viewModel?.gitListUpdated()
         }
     }
 }

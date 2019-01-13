@@ -25,21 +25,28 @@ struct GitHubLicense: Codable{
 
 extension GitHubView {
     
-    static var dayFormatter: DateFormatter? = nil
-    var createdFormatter: DateFormatter {
-        if (GitHubView.dayFormatter == nil) {
-            GitHubView.dayFormatter = DateFormatter()
-            GitHubView.dayFormatter?.locale = Locale(identifier: "US_en")
-            GitHubView.dayFormatter?.timeStyle = .none
-            GitHubView.dayFormatter?.dateFormat = "MM-DD-YYYY"
+    static var dateFormatterISO8601: DateFormatter? = nil
+    static var dateFormatter: DateFormatter? = nil
+    
+    var dateFormatterPosix: DateFormatter{
+        if GitHubView.dateFormatterISO8601 == nil {
+            GitHubView.dateFormatterISO8601 = DateFormatter()
+            GitHubView.dateFormatterISO8601!.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+            GitHubView.dateFormatterISO8601!.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         }
-        return GitHubView.dayFormatter!
+        return GitHubView.dateFormatterISO8601!
+    }
+
+    var dateFormatter: DateFormatter {
+        if (GitHubView.dateFormatter == nil) {
+            GitHubView.dateFormatter = DateFormatter()
+            GitHubView.dateFormatter!.dateFormat = "MM-dd-yyyy"
+        }
+        return GitHubView.dateFormatter!
     }
     
     var created : String {
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withYear, .withMonth, .withDay]
-        let date = dateFormatter.date(from: created_at ?? "2015-11-10T19:52:44Z")
-        return createdFormatter.string(from: date!)
+        let date = (created_at != nil ? dateFormatterPosix.date(from: created_at!) : dateFormatterPosix.date(from: "2015-11-10T19:52:44Z"))
+        return dateFormatter.string(from: date!)
     }
 }

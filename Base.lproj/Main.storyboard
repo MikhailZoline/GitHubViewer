@@ -36,29 +36,29 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="C3Q-cR-klR">
-                                                    <rect key="frame" x="73" y="4" width="107" height="265"/>
+                                                    <rect key="frame" x="37.749146757679107" y="0.34215017064855147" width="106.99999999999989" height="351"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="apple/ccs-pycalendar" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEj-VF-EGM" userLabel="name">
-                                                            <rect key="frame" x="0.0" y="0.0" width="176" height="24.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="176" height="32"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSZ-5q-kUL" userLabel="descr">
-                                                            <rect key="frame" x="0.0" y="28.5" width="176" height="171"/>
+                                                            <rect key="frame" x="0.0" y="36" width="176" height="221"/>
                                                             <string key="text">makeitopen.com is a learning portal that begins with the F8 App tutorial series, and will hopefully expand to encompass lots of additional tutorials designed to connect our FB Open Source projects.</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="2015-11-10T19:52:44Z" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2J-Lv-mTr" userLabel="created">
-                                                            <rect key="frame" x="0.0" y="203.5" width="176" height="24.5"/>
+                                                            <rect key="frame" x="0.0" y="261" width="176" height="31.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Apache License 2.0" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dTY-3a-1FK" userLabel="license">
-                                                            <rect key="frame" x="0.0" y="232" width="176" height="33"/>
+                                                            <rect key="frame" x="0.0" y="296.5" width="176" height="46.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -69,7 +69,7 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="C3Q-cR-klR" firstAttribute="leading" secondItem="xWd-KG-DSm" secondAttribute="leading" constant="4" id="TXI-t3-Tbu"/>
-                                            <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="C3Q-cR-klR" secondAttribute="bottom" constant="82" id="eAd-4N-NmA"/>
+                                            <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="C3Q-cR-klR" secondAttribute="bottom" constant="4" id="eAd-4N-NmA"/>
                                             <constraint firstAttribute="trailing" secondItem="C3Q-cR-klR" secondAttribute="trailing" constant="4" id="lPx-cM-tVb"/>
                                             <constraint firstItem="C3Q-cR-klR" firstAttribute="top" secondItem="xWd-KG-DSm" secondAttribute="top" constant="4" id="ycE-6L-1Ax"/>
                                         </constraints>
